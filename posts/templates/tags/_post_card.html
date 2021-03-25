@@ -1,0 +1,55 @@
+<div class="card mb-3">
+    <div class="card-header d-flex justify-content-between align-items-start">
+        <span>
+            Категория: <a
+                href="{{ post.category.get_absolute_url }}">{{ post.category }}</a>
+        </span>
+        <span class="badge bg-secondary">{{ post.views }}</span>
+    </div>
+    <div class="card-body">
+        <div class="media">
+            <div>
+                <img src="{% if post.img %} {{ post.img.url }} {% else %} https://picsum.photos/900/300?random=1 {% endif %}"
+                     alt="picture"
+                     class="img-fluid"
+                >
+            </div>
+            <div class="media-body">
+                <h5 class="card-title">{{ post.title }}</h5>
+                {% if trunc %}
+                    <p class="card-text">{{ post.text|linebreaksbr|truncatewords:30 }}</p>
+                    <a href="{{ post.get_absolute_url }}"
+                       class="btn btn-primary">Читайте
+                        далее</a>
+                {% else %}
+                    <p class="card-text">{{ post.text|linebreaksbr }}</p>
+                {% endif %}
+
+            </div>
+        </div>
+
+    </div>
+    <div class="card-footer text-muted">
+        <div class="row" style="font-size: 11px">
+            <div class="col-3">
+                Создана: {{ post.pub_date|date:"Y-m-d" }}
+            </div>
+            <div class="col-3">
+                Обновлена: {{ post.upd_date|date:"Y-m-d H:i" }}
+            </div>
+            <div class="col-2">
+                Автор: {{ post.author.username }}
+            </div>
+            {% if request.user != post.author %}
+                <div class="col-4">
+                    <div class="row">
+                        <div class="col"><a href="{% url 'del_post' post.pk %}">Удалить</a>
+                        </div>
+                        <div class="col"><a href="{% url 'upd_post' post.pk %}">Редактировать</a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

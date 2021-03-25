@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load post_extras %}
+{% block title %} Главная страница {% endblock %}
+{% block content %}
+    <div class="col-md-10">
+        {% for item in posts %}
+            <div class="row">
+                <div class="col-9">
+                    {% post_card request=request post=item %}
+                </div>
+            </div>
+        {% empty %}
+            Нет постов
+        {% endfor %}
+    </div>
+{% endblock %}
